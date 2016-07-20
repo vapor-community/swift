@@ -52,6 +52,7 @@ then
 
     INSTALL_LOC=$HOME;
     TOOLCHAIN="swift";
+    export PATH=$HOME/swift/usr/bin:"{$PATH}"
 fi
 
 echo "🚀  Installing";
