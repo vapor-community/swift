@@ -69,8 +69,11 @@ SWIFTV=`swift --version`;
 if [[ $SWIFTV == *$SWIFTV_EXPECTED* ]];
 then
     echo "✅  Done";
-    echo "Make sure to change your Xcode > Toolchains to";
-    echo "Swift Development Snapshot 2016-$VERSION (qutheory)";
+    if [[ $OS == "macos" ]];
+    then
+        echo "Make sure to change your Xcode > Toolchains to";
+        echo "Swift Development Snapshot 2016-$VERSION (qutheory)";
+    fi
 else
     echo "❌  Something went wrong.";
     echo "";
