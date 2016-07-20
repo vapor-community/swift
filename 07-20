@@ -45,6 +45,12 @@ else
     TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory";
 fi
 
+if [[ $TRAVIS ]];
+then
+    echo "Travis detected.";
+    INSTALL_LOC=$HOME;
+fi
+
 echo "🚀  Installing";
 
 sudo mkdir -p $INSTALL_LOC;
@@ -61,8 +67,6 @@ fi
 sudo echo "" >> ~/$PROFILE;
 sudo echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
 sudo echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
-
-export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:"{$PATH}";
 
 source ~/$PROFILE;
 
