@@ -36,6 +36,8 @@ curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
 echo "🔧  Untarring"
 tar -xf $COMPRESSED;
 
+rm $COMPRESSED;
+
 if [[ $OS == "macos" ]];
 then
     INSTALL_LOC="/Library/Developer/Toolchains";
@@ -68,6 +70,11 @@ else
     PROFILE=".bashrc";
 fi
 
+if [[ $TRAVIS ]];
+then
+    PROFILE=".bashrc"
+fi
+
 sudo echo "" >> ~/$PROFILE;
 sudo echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
 sudo echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
@@ -81,6 +88,7 @@ then
     echo "✅  Done";
     if [[ $OS == "macos" ]];
     then
+        echo ""
         echo "Make sure to change your Xcode > Toolchains to";
         echo "Swift Development Snapshot 2016-$VERSION (qutheory)";
     fi
@@ -88,12 +96,11 @@ else
     echo "❌  Something went wrong.";
     echo "";
     echo "Unexpected Swift version returned by";
-    echo "swift --version";
+    echo "    swift --version";
     echo ""
     echo "Expected to contain: $SWIFTV_EXPECTED";
-    echo "";
-    echo "Make sure there are no other export PATH statements";
-    echo "in your profile configuration file: $PROFILE";
-    echo "";
-    echo "You may also try restarting your terminal.";
 fi
+
+echo ""
+echo "Now open a new terminal tab or run";
+echo "    source ~/$PROFILE"
