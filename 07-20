@@ -1,0 +1,50 @@
+#!/bin/sh
+
+UNAME=`uname`;
+VERSION="07-20"
+
+if [[ $UNAME == "Darwin" ]];
+then
+    echo "Hey macOS";
+    OS="macos";
+else
+    if [[ $UNAME == "Linux" ]];
+    then
+        echo "Hey Linux";
+        OS="ubuntu1404";
+    else
+        echo "Unsupported Operating System: $UNAME";
+    fi
+fi
+
+COMPRESSED="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory-$OS.tar";
+
+curl -sL swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
+tar -xvf $COMPRESSED;
+
+if [[ $OS == "macos" ]];
+then
+    INSTALL_LOC="/Library/Developer/Toolchains";
+    TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory.xctoolchain";
+else
+    INSTALL_LOC="/usr/local/bin";
+    TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory";
+fi
+
+sudo mkdir -p $INSTALL_LOC;
+sudo rm -rf "$INSTALL_LOC/$TOOLCHAIN";
+sudo mv $TOOLCHAIN $INSTALL_LOC;
+
+if [[ $OS == "macos" ]];
+then
+    PROFILE="~/.bash_profile";
+else
+    PROFILE="~/.bashrc";
+fi
+
+echo "" >> $PROFILE;
+echo "# Swift 3 Development $VERSION (qutheory) Support" >> $PROFILE;
+echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> $PROFILE;
+
+source $PROFILE;
+
