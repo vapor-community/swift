@@ -62,6 +62,8 @@ sudo echo "" >> ~/$PROFILE;
 sudo echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
 sudo echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
 
+export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:"{$PATH}";
+
 source ~/$PROFILE;
 
 SWIFTV=`swift --version`;
@@ -85,5 +87,5 @@ else
     echo "Make sure there are no other export PATH statements";
     echo "in your profile configuration file: $PROFILE";
     echo "";
-    echo "You may also trying restarting your terminal.";
+    echo "You may also try restarting your terminal.";
 fi
