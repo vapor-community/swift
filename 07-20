@@ -58,9 +58,9 @@ else
     PROFILE=".bashrc";
 fi
 
-echo "" >> ~/$PROFILE;
-echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
-echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
+sudo echo "" >> ~/$PROFILE;
+sudo echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
+sudo echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
 
 source ~/$PROFILE;
 
