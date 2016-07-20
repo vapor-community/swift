@@ -11,7 +11,7 @@ else
     if [[ $UNAME == "Linux" ]];
     then
         SWIFTV_EXPECTED="55bf02ec04";
-        UBUNTU_RELEASE=`lsb_release -a`;
+        UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
         if [[ $UBUNTU_RELEASE == *"15.10"* ]];
         then
             OS="ubuntu1510";
@@ -23,7 +23,9 @@ else
     fi
 fi
 
+echo ""
 echo "Swift 3 Installer ($VERSION)";
+echo ""
 
 echo "🖥  Operating System: $OS";
 
