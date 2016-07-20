@@ -22,11 +22,11 @@ echo "🖥  Operating System: $OS";
 
 COMPRESSED="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory-$OS.tar";
 
-echo "⬇️  Downloading..."
+echo "⬇️  Downloading"
 
 curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
 
-echo "⚙  Untarring..."
+echo "🔧  Untarring"
 tar -xf $COMPRESSED;
 
 if [[ $OS == "macos" ]];
@@ -38,8 +38,7 @@ else
     TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory";
 fi
 
-echo "🚀  Installing...";
-echo "🔒  sudo required";
+echo "🚀  Installing";
 
 sudo mkdir -p $INSTALL_LOC;
 sudo rm -rf "$INSTALL_LOC/$TOOLCHAIN";
@@ -63,6 +62,8 @@ SWIFTV=`swift --version`
 if [[ $SWIFTV == *"888ff1ae99"* ]];
 then
     echo "✅  Done"
+    echo "Make sure to change your Xcode > Toolchains to"
+    echo "Swift Development Snapshot 2016-$VERSION (qutheory)"
 else
     echo "❌  Something went wrong."
     echo ""
