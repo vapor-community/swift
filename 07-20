@@ -26,7 +26,7 @@ echo "⬇️  Downloading..."
 
 curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
 
-echo "🔢  Untarring..."
+echo "⚙  Untarring..."
 tar -xf $COMPRESSED;
 
 if [[ $OS == "macos" ]];
@@ -38,7 +38,7 @@ else
     TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory";
 fi
 
-echo "📂  Installing...";
+echo "🚀  Installing...";
 echo "🔒  sudo required";
 
 sudo mkdir -p $INSTALL_LOC;
@@ -51,9 +51,6 @@ then
 else
     PROFILE=".bashrc";
 fi
-
-
-echo "🔧  Configuring...";
 
 echo "" >> ~/$PROFILE;
 echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
