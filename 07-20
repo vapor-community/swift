@@ -23,9 +23,7 @@ else
     fi
 fi
 
-echo ""
 echo "Swift 3 Installer ($VERSION)";
-echo ""
 
 echo "🖥  Operating System: $OS";
 
