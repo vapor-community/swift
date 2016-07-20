@@ -48,7 +48,10 @@ fi
 if [[ $TRAVIS ]];
 then
     echo "Travis detected.";
+    mv $TOOLCHAIN swift;
+    
     INSTALL_LOC=$HOME;
+    TOOLCHAIN="swift";
 fi
 
 echo "🚀  Installing";
