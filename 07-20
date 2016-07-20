@@ -6,9 +6,11 @@ VERSION="07-20"
 if [[ $UNAME == "Darwin" ]];
 then
     OS="macos";
+    SWIFTV_EXPECTED="888ff1ae99";
 else
     if [[ $UNAME == "Linux" ]];
     then
+        SWIFTV_EXPECTED="55bf02ec04";
         UBUNTU_RELEASE=`lsb_release -a`;
         if [[ $UBUNTU_RELEASE == *"15.10"* ]];
         then
@@ -62,17 +64,17 @@ echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
 
 source ~/$PROFILE;
 
-SWIFTV=`swift --version`
+SWIFTV=`swift --version`;
 
-if [[ $SWIFTV == *"888ff1ae99"* ]];
+if [[ $SWIFTV == *$SWIFTV_EXPECTED* ]];
 then
-    echo "✅  Done"
-    echo "Make sure to change your Xcode > Toolchains to"
-    echo "Swift Development Snapshot 2016-$VERSION (qutheory)"
+    echo "✅  Done";
+    echo "Make sure to change your Xcode > Toolchains to";
+    echo "Swift Development Snapshot 2016-$VERSION (qutheory)";
 else
-    echo "❌  Something went wrong."
-    echo ""
-    echo "Unexpected Swift version returned by"
-    echo "swift --version"
-    echo "Expected 888ff1ae99"
+    echo "❌  Something went wrong.";
+    echo "";
+    echo "Unexpected Swift version returned by";
+    echo "swift --version";
+    echo "Expected: $SWIFTV_EXPECTED";
 fi
