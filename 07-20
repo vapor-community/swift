@@ -5,7 +5,6 @@ VERSION="07-20"
 
 if [[ $UNAME == "Darwin" ]];
 then
-    echo "Hey macOS";
     OS="macos";
 else
     if [[ $UNAME == "Linux" ]];
@@ -17,10 +16,18 @@ else
     fi
 fi
 
+echo "Swift 3 Installer ($VERSION)";
+
+echo "🖥  Operating System: $OS";
+
 COMPRESSED="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory-$OS.tar";
 
-curl -sL swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
-tar -xvf $COMPRESSED;
+echo "⬇️  Downloading..."
+
+curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
+
+echo "🔢  Untarring..."
+tar -xf $COMPRESSED;
 
 if [[ $OS == "macos" ]];
 then
@@ -31,20 +38,38 @@ else
     TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory";
 fi
 
+echo "📂  Installing...";
+echo "🔒  sudo required";
+
 sudo mkdir -p $INSTALL_LOC;
 sudo rm -rf "$INSTALL_LOC/$TOOLCHAIN";
 sudo mv $TOOLCHAIN $INSTALL_LOC;
 
 if [[ $OS == "macos" ]];
 then
-    PROFILE="~/.bash_profile";
+    PROFILE=".bash_profile";
 else
-    PROFILE="~/.bashrc";
+    PROFILE=".bashrc";
 fi
 
-echo "" >> $PROFILE;
-echo "# Swift 3 Development $VERSION (qutheory) Support" >> $PROFILE;
-echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> $PROFILE;
 
-source $PROFILE;
+echo "🔧  Configuring...";
 
+echo "" >> ~/$PROFILE;
+echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
+echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
+
+source ~/$PROFILE;
+
+SWIFTV=`swift --version`
+
+if [[ $SWIFTV == *"888ff1ae99"* ]];
+then
+    echo "✅  Done"
+else
+    echo "❌  Something went wrong."
+    echo ""
+    echo "Unexpected Swift version returned by"
+    echo "swift --version"
+    echo "Expected 888ff1ae99"
+fi
