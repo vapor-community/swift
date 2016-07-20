@@ -79,5 +79,11 @@ else
     echo "";
     echo "Unexpected Swift version returned by";
     echo "swift --version";
-    echo "Expected: $SWIFTV_EXPECTED";
+    echo ""
+    echo "Expected to contain: $SWIFTV_EXPECTED";
+    echo "";
+    echo "Make sure there are no other export PATH statements";
+    echo "in your profile configuration file: $PROFILE";
+    echo "";
+    echo "You may also trying restarting your terminal.";
 fi
