@@ -9,8 +9,13 @@ then
 else
     if [[ $UNAME == "Linux" ]];
     then
-        echo "Hey Linux";
-        OS="ubuntu1404";
+        UBUNTU_RELEASE=`lsb_release -a`;
+        if [[ $UBUNTU_RELEASE == *"15.10"* ]];
+        then
+            OS="ubuntu1510";
+        else
+            OS="ubuntu1404";
+        fi
     else
         echo "Unsupported Operating System: $UNAME";
     fi
