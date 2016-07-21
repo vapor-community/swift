@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 UNAME=`uname`;
 VERSION="07-20"
