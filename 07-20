@@ -31,6 +31,9 @@ then
     export SWIFTENV_ROOT="$HOME/.swiftenv"
     export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
     swiftenv rehash
+    which swift
+    echo $PATH
+    swiftenv
 fi
 
 if [[ `which swift` != *"swiftenv"* ]];
