@@ -30,6 +30,7 @@ then
     git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
     export SWIFTENV_ROOT="$HOME/.swiftenv"
     export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
+    swiftenv rehash
 fi
 
 if [[ `which swift` != *"swiftenv"* ]];
@@ -52,8 +53,8 @@ then
         echo "    brew install kylef/formulae/swiftenv"
         echo "Add to your Bash Profile:"
         echo "    if which swiftenv > /dev/null; then eval \"\$(swiftenv init -)\"; fi"
-        exit 1
     fi
+    exit 1
 fi
 
 echo "🖥  Operating System: $OS";
