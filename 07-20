@@ -86,7 +86,7 @@ else
     then
         echo "🔒  Sudo required";
         sudo mkdir -p $INSTALL_LOC;
-        sudo rm -rf -p $TOOLCHAIN $INSTALL_LOC;
+        sudo rm -rf $TOOLCHAIN $INSTALL_LOC;
         sudo mv $TOOLCHAIN $INSTALL_LOC;
     fi
 fi
