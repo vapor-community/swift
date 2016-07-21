@@ -54,7 +54,6 @@ then
 
     INSTALL_LOC=$HOME;
     TOOLCHAIN="swift";
-    export PATH=$PATH:$HOME/swift/usr/bin/
 fi
 
 echo "🚀  Installing";
@@ -77,7 +76,9 @@ fi
 
 sudo echo "" >> ~/$PROFILE;
 sudo echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
-sudo echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
+sudo echo "export PATH=\$PATH:$INSTALL_LOC/$TOOLCHAIN/usr/bin" >> ~/$PROFILE;
+
+export PATH=$PATH:$INSTALL_LOC/$TOOLCHAIN/usr/bin
 
 source ~/$PROFILE;
 
@@ -88,19 +89,15 @@ then
     echo "✅  Done";
     if [[ $OS == "macos" ]];
     then
-        echo ""
         echo "Make sure to change your Xcode > Toolchains to";
         echo "Swift Development Snapshot 2016-$VERSION (qutheory)";
     fi
 else
     echo "❌  Something went wrong.";
-    echo "";
     echo "Unexpected Swift version returned by";
     echo "    swift --version";
-    echo ""
     echo "Expected to contain: $SWIFTV_EXPECTED";
 fi
 
-echo ""
 echo "Now open a new terminal tab or run";
 echo "    source ~/$PROFILE"
