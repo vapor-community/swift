@@ -3,12 +3,7 @@
 UNAME=`uname`;
 VERSION="07-20"
 
-if [[ `which swift` != *"swiftenv"* ]];
-then
-    echo "❌  Swiftenv is not installed."
-    echo "    https://swiftenv.fuller.li/en/latest/installation.html"
-    exit 1
-fi
+echo "Swift 3 Installer ($VERSION)";
 
 if [[ $UNAME == "Darwin" ]];
 then
@@ -30,7 +25,29 @@ else
     fi
 fi
 
-echo "Swift 3 Installer ($VERSION)";
+
+if [[ `which swift` != *"swiftenv"* ]];
+then
+    echo "❌  Swiftenv is not installed."
+    echo ""
+    echo "Full installation instructions:"
+    echo "    https://swiftenv.fuller.li/en/latest/installation.html"
+    echo ""
+    echo "Via Git:"
+    echo "    git clone https://github.com/kylef/swiftenv.git ~/.swiftenv"
+    echo "Add to your Bash profile:"
+    echo "    export SWIFTENV_ROOT=\"\$HOME/.swiftenv\""
+    echo "    export PATH=\"\$SWIFTENV_ROOT/bin:\$PATH\""
+    echo "    eval \"\$(swiftenv init -)\""
+    if [[ $OS == "macos" ]];
+    then
+        echo ""
+        echo "Via Homebrew:"
+        echo "    brew install kylef/formulae/swiftenv"
+        echo "Add to your Bash Profile:"
+        echo "    if which swiftenv > /dev/null; then eval \"\$(swiftenv init -)\"; fi"
+    exit 1
+fi
 
 echo "🖥  Operating System: $OS";
 
@@ -40,7 +57,7 @@ then
     INSTALL_LOC="/Library/Developer/Toolchains";
     TOOLCHAIN="$NAME.xctoolchain";
 else
-    INSTALL_LOC="~/.swiftenv/versions";
+    INSTALL_LOC="$HOME/.swiftenv/versions";
     TOOLCHAIN=$NAME;
 fi
 
