@@ -30,34 +30,30 @@ then
     git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
     export SWIFTENV_ROOT="$HOME/.swiftenv"
     export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
-    swiftenv rehash
-    which swift
-    echo $PATH
-    swiftenv
-fi
-
-if [[ `which swift` != *"swiftenv"* ]];
-then
-    echo "❌  Swiftenv is not installed."
-    echo ""
-    echo "Full installation instructions:"
-    echo "    https://swiftenv.fuller.li/en/latest/installation.html"
-    echo ""
-    echo "Via Git:"
-    echo "    git clone https://github.com/kylef/swiftenv.git ~/.swiftenv"
-    echo "Add to your Bash profile:"
-    echo "    export SWIFTENV_ROOT=\"\$HOME/.swiftenv\""
-    echo "    export PATH=\"\$SWIFTENV_ROOT/bin:\$PATH\""
-    echo "    eval \"\$(swiftenv init -)\""
-    if [[ $OS == "macos" ]];
+else
+    if [[ `which swift` != *"swiftenv"* ]];
     then
+        echo "❌  Swiftenv is not installed."
         echo ""
-        echo "Via Homebrew:"
-        echo "    brew install kylef/formulae/swiftenv"
-        echo "Add to your Bash Profile:"
-        echo "    if which swiftenv > /dev/null; then eval \"\$(swiftenv init -)\"; fi"
+        echo "Full installation instructions:"
+        echo "    https://swiftenv.fuller.li/en/latest/installation.html"
+        echo ""
+        echo "Via Git:"
+        echo "    git clone https://github.com/kylef/swiftenv.git ~/.swiftenv"
+        echo "Add to your Bash profile:"
+        echo "    export SWIFTENV_ROOT=\"\$HOME/.swiftenv\""
+        echo "    export PATH=\"\$SWIFTENV_ROOT/bin:\$PATH\""
+        echo "    eval \"\$(swiftenv init -)\""
+        if [[ $OS == "macos" ]];
+        then
+            echo ""
+            echo "Via Homebrew:"
+            echo "    brew install kylef/formulae/swiftenv"
+            echo "Add to your Bash Profile:"
+            echo "    if which swiftenv > /dev/null; then eval \"\$(swiftenv init -)\"; fi"
+        fi
+        exit 1
     fi
-    exit 1
 fi
 
 echo "🖥  Operating System: $OS";
