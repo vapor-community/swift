@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-UNAME=`uname`;
+echo "Swift 3 Travis Installer ($VERSION)";
 
 # Determine version
 VERSION_FILE=".swift-version"
@@ -11,17 +11,14 @@ then
 fi
 VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
 
-echo "Swift 3 Travis Installer ($VERSION)";
-
 # Determine OS
+UNAME=`uname`;
 if [[ $UNAME == "Darwin" ]];
 then
     OS="macos";
-    SWIFTV_EXPECTED="888ff1ae99";
 else
     if [[ $UNAME == "Linux" ]];
     then
-        SWIFTV_EXPECTED="55bf02ec04";
         UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
         if [[ $UBUNTU_RELEASE == *"15.10"* ]];
         then

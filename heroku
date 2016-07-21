@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-UNAME=`uname`;
+echo "Swift 3 Heroku Installer ($VERSION)";
 
 # Determine version
 VERSION_FILE=".swift-version"
@@ -11,10 +11,7 @@ then
 fi
 VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
 
-echo "Swift 3 Heroku Installer ($VERSION)";
-
 # Determine OS
-SWIFTV_EXPECTED="55bf02ec04";
 UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
 if [[ $UBUNTU_RELEASE == *"15.10"* ]];
 then
@@ -31,7 +28,6 @@ export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
 
 INSTALL_LOC="$HOME/.swiftenv/versions";
 TOOLCHAIN="swift-$VERSION";
-
 
 echo "⬇️  Downloading"
 COMPRESSED="$OS.tar";
