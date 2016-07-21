@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 UNAME=`uname`;
-VERSION="07-20"
+VERSION="DEVELOPMENT-SNAPSHOT-2016-07-20-qutheory"
 
 echo "Swift 3 Installer ($VERSION)";
 
@@ -24,6 +24,7 @@ else
         echo "Unsupported Operating System: $UNAME";
     fi
 fi
+echo "🖥  Operating System: $OS";
 
 if [[ $TRAVIS ]];
 then
@@ -56,23 +57,20 @@ else
     fi
 fi
 
-echo "🖥  Operating System: $OS";
-
-NAME="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory"
 if [[ $OS == "macos" ]];
 then
     INSTALL_LOC="/Library/Developer/Toolchains";
-    TOOLCHAIN="$NAME.xctoolchain";
+    TOOLCHAIN="swift-$VERSION.xctoolchain";
 else
     INSTALL_LOC="$HOME/.swiftenv/versions";
-    TOOLCHAIN=$NAME;
+    TOOLCHAIN="swift-$VERSION";
 fi
 
 if [ -d "$INSTALL_LOC/$TOOLCHAIN" ]; 
 then
     echo "⬇️  Downloaded"
 else
-    COMPRESSED="$NAME-$OS.tar";
+    COMPRESSED="$OS.tar";
 
     echo "⬇️  Downloading"
 
@@ -98,7 +96,7 @@ else
 fi
 
 swiftenv rehash
-swiftenv global $NAME
+swiftenv global $VERSION
 
 SWIFTV=`swift --version`;
 
