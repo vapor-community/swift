@@ -82,10 +82,8 @@ else
     mkdir -p $INSTALL_LOC;
     mv $TOOLCHAIN $INSTALL_LOC;
 
-    if [ $? -eq 0 ]; 
+    if [ $? -ne 0 ]; 
     then
-        echo "Done"
-    else
         echo "🔒  Sudo required";
         sudo mkdir -p $INSTALL_LOC;
         sudo rm -rf -p $TOOLCHAIN $INSTALL_LOC;
