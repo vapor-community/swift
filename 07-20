@@ -27,17 +27,6 @@ echo "Swift 3 Installer ($VERSION)";
 
 echo "🖥  Operating System: $OS";
 
-COMPRESSED="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory-$OS.tar";
-
-echo "⬇️  Downloading"
-
-curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
-
-echo "🔧  Untarring"
-tar -xf $COMPRESSED;
-
-rm $COMPRESSED;
-
 if [[ $OS == "macos" ]];
 then
     INSTALL_LOC="/Library/Developer/Toolchains";
@@ -47,20 +36,36 @@ else
     TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory";
 fi
 
-if [[ $TRAVIS ]];
+if [ -d "$INSTALL_LOC/$TOOLCHAIN" ]; 
 then
-    echo "Travis detected.";
-    mv $TOOLCHAIN swift;
+    echo "⬇️  Downloaded"
+else
+    COMPRESSED="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory-$OS.tar";
 
-    INSTALL_LOC=$HOME;
-    TOOLCHAIN="swift";
+    echo "⬇️  Downloading"
+
+    curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
+
+    echo "🔧  Untarring"
+    tar -xf $COMPRESSED;
+
+    rm $COMPRESSED;
+
+    if [[ $TRAVIS ]];
+    then
+        echo "Travis detected.";
+        mv $TOOLCHAIN swift;
+
+        INSTALL_LOC=$HOME;
+        TOOLCHAIN="swift";
+    fi
+
+    echo "🚀  Installing";
+
+    sudo mkdir -p $INSTALL_LOC;
+    sudo rm -rf "$INSTALL_LOC/$TOOLCHAIN";
+    sudo mv $TOOLCHAIN $INSTALL_LOC;
 fi
-
-echo "🚀  Installing";
-
-sudo mkdir -p $INSTALL_LOC;
-sudo rm -rf "$INSTALL_LOC/$TOOLCHAIN";
-sudo mv $TOOLCHAIN $INSTALL_LOC;
 
 if [[ $OS == "macos" ]];
 then
@@ -69,28 +74,61 @@ else
     PROFILE=".bashrc";
 fi
 
+LOADER=".swift-version-loader"
+VFILE=".swift-version"
+
+rm ~/$LOADER 2> /dev/null
+echo "VERSION=\`cat ~/$VFILE | tr -d '[[:space:]]'\`" >> ~/$LOADER;
+echo "" >> ~/$LOADER;
+if [[ $OS == "macos" ]];
+then
+    echo "export PATH=$INSTALL_LOC/\$VERSION.xctoolchain/usr/bin:\"\$PATH\"" >> ~/$LOADER;
+else
+    echo "export PATH=$INSTALL_LOC/\$VERSION/usr/bin:\"\$PATH\"" >> ~/$LOADER;
+fi
+
+rm ~/$VFILE 2> /dev/null
+echo "swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory" >> ~/$VFILE
+
 if [[ $TRAVIS ]];
 then
     PROFILE=".bashrc";
 else
-    read -r -p "Add Swift $VERSION to your ~/$PROFILE for Terminal access? [y/N] " response;
-    response=${response,,}    # tolower
-    if [[ $response =~ ^(yes|y)$ ]];
+    if [[ `cat ~/$PROFILE` == *"source ~/$LOADER"* ]];
     then
-        echo "" >> ~/$PROFILE;
-        echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
-        echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
-
-        echo "⚠️  Now open a new terminal tab or run";
+        echo "⚠️  Open a new terminal tab or run";
         echo "    source ~/$PROFILE";
     else
-        echo "⚠️  Add the following line to your ~/$PROFILE";
-        echo "    export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"";
+        read -r -p "Add Swift loader to your ~/$PROFILE for Terminal access? [y/N] " response;
+        if [[ $response =~ ^(yes|y|Y|YES)$ ]];
+        then
+            echo "" >> ~/$PROFILE;
+            echo "# Swift 3 Development Version Loader" >> ~/$PROFILE;
+            echo "source ~/$LOADER" >> ~/$PROFILE;
+
+            echo "⚠️  Now open a new terminal tab or run";
+            echo "    source ~/$PROFILE";
+        else
+            echo "⚠️  Add the following line to your ~/$PROFILE";
+            echo "    source ~/$LOADER";
+        fi
     fi
 fi
 
+PROF_CONTENTS=`cat ~/$PROFILE`
+if [[ $PROF_CONTENTS == *"swiftenv"* ]];
+then
+    echo "⚠️  Your ~/$PROFILE contains references to swiftenv.";
+    echo "This may interfere. Try commenting swiftenv out if you have issues."
+fi
+
+if [[ $PROF_CONTENTS == *".xctoolchain"* ]];
+then
+    echo "⚠️  Your ~/$PROFILE contains references to other Swift snapshots.";
+    echo "This may interfere. Try commenting these out if you have issues."
+fi
+
 export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:"{$PATH}";
-source ~/$PROFILE;
 
 SWIFTV=`swift --version`;
 
