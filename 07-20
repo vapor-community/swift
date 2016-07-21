@@ -71,14 +71,14 @@ fi
 
 if [[ $TRAVIS ]];
 then
-    PROFILE=".bashrc"
+    PROFILE=".bashrc";
 fi
 
 sudo echo "" >> ~/$PROFILE;
 sudo echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
-sudo echo "export PATH=\$PATH:$INSTALL_LOC/$TOOLCHAIN/usr/bin" >> ~/$PROFILE;
+sudo echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
 
-export PATH=$PATH:$INSTALL_LOC/$TOOLCHAIN/usr/bin
+export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:"{$PATH}"
 
 source ~/$PROFILE;
 
