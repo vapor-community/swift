@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+
+UNAME=`uname`;
+
+# Determine version
+VERSION_FILE=".swift-version"
+if [ ! -f $VERSION ]; 
+then
+    echo "No .swift-version file found."
+    exit 1
+fi
+VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
+
+echo "Swift 3 Heroku Installer ($VERSION)";
+
+# Determine OS
+SWIFTV_EXPECTED="55bf02ec04";
+UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
+if [[ $UBUNTU_RELEASE == *"15.10"* ]];
+then
+    OS="ubuntu1510";
+else
+    OS="ubuntu1404";
+fi
+echo "🖥  Operating System: $OS";
+
+# Install Swiftenv
+git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
+export SWIFTENV_ROOT="$HOME/.swiftenv"
+export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
+
+INSTALL_LOC="$HOME/.swiftenv/versions";
+TOOLCHAIN="swift-$VERSION";
+
+
+echo "⬇️  Downloading"
+COMPRESSED="$OS.tar";
+curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
+
+echo "🔧  Untarring"
+tar -xf $COMPRESSED;
+rm $COMPRESSED;
+
+echo "🚀  Installing";
+mkdir -p $INSTALL_LOC 2>/dev/null;
+mv $TOOLCHAIN $INSTALL_LOC 2>/dev/null;
+if [ $? -ne 0 ]; 
+then
+    echo "🔒  Sudo required";
+    sudo mkdir -p $INSTALL_LOC;
+    sudo rm -rf $TOOLCHAIN/$INSTALL_LOC;
+    sudo mv $TOOLCHAIN $INSTALL_LOC;
+fi
+
+# Prepare Swiftenv
+swiftenv rehash
+swiftenv global $NAME
+
+echo "✅  Done";
+
