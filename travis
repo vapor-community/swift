@@ -43,10 +43,10 @@ export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
 if [[ $OS == "macos" ]];
 then
     INSTALL_LOC="/Library/Developer/Toolchains";
-    TOOLCHAIN="$VERSION.xctoolchain";
+    TOOLCHAIN="swift-$VERSION.xctoolchain";
 else
     INSTALL_LOC="$HOME/.swiftenv/versions";
-    TOOLCHAIN=$VERSION;
+    TOOLCHAIN="swift-$VERSION";
 fi
 
 echo "⬇️  Downloading"
