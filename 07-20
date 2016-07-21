@@ -46,7 +46,8 @@ then
         echo "    brew install kylef/formulae/swiftenv"
         echo "Add to your Bash Profile:"
         echo "    if which swiftenv > /dev/null; then eval \"\$(swiftenv init -)\"; fi"
-    exit 1
+        exit 1
+    fi
 fi
 
 echo "🖥  Operating System: $OS";
