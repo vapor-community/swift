@@ -74,12 +74,21 @@ then
     PROFILE=".bashrc";
 fi
 
-echo "" >> ~/$PROFILE;
-echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
-echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
+read -r -p "Add Swift $VERSION to your ~/$PROFILE for Terminal access? [y/N] " response;
+if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]];
+then
+    echo "" >> ~/$PROFILE;
+    echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
+    echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
 
-export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:"{$PATH}"
+    echo "⚠️  Now open a new terminal tab or run";
+    echo "    source ~/$PROFILE";
+else
+    echo "⚠️  Add the following line to your ~/$PROFILE";
+    echo "    export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"";
+fi
 
+export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:"{$PATH}";
 source ~/$PROFILE;
 
 SWIFTV=`swift --version`;
@@ -98,6 +107,3 @@ else
     echo "    swift --version";
     echo "Expected to contain: $SWIFTV_EXPECTED";
 fi
-
-echo "Now open a new terminal tab or run";
-echo "    source ~/$PROFILE"
