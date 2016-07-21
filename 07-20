@@ -75,7 +75,8 @@ then
 fi
 
 read -r -p "Add Swift $VERSION to your ~/$PROFILE for Terminal access? [y/N] " response;
-if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]];
+response=${response,,}    # tolower
+if [[ $response =~ ^(yes|y)$ ]];
 then
     echo "" >> ~/$PROFILE;
     echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
