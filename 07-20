@@ -72,21 +72,21 @@ fi
 if [[ $TRAVIS ]];
 then
     PROFILE=".bashrc";
-fi
-
-read -r -p "Add Swift $VERSION to your ~/$PROFILE for Terminal access? [y/N] " response;
-response=${response,,}    # tolower
-if [[ $response =~ ^(yes|y)$ ]];
-then
-    echo "" >> ~/$PROFILE;
-    echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
-    echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
-
-    echo "⚠️  Now open a new terminal tab or run";
-    echo "    source ~/$PROFILE";
 else
-    echo "⚠️  Add the following line to your ~/$PROFILE";
-    echo "    export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"";
+    read -r -p "Add Swift $VERSION to your ~/$PROFILE for Terminal access? [y/N] " response;
+    response=${response,,}    # tolower
+    if [[ $response =~ ^(yes|y)$ ]];
+    then
+        echo "" >> ~/$PROFILE;
+        echo "# Swift 3 Development $VERSION (qutheory) Support" >> ~/$PROFILE;
+        echo "export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"" >> ~/$PROFILE;
+
+        echo "⚠️  Now open a new terminal tab or run";
+        echo "    source ~/$PROFILE";
+    else
+        echo "⚠️  Add the following line to your ~/$PROFILE";
+        echo "    export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:\"{\$PATH}\"";
+    fi
 fi
 
 export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:"{$PATH}";
