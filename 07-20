@@ -3,6 +3,13 @@
 UNAME=`uname`;
 VERSION="07-20"
 
+if [[ `which swift` != *"swiftenv"* ]];
+then
+    echo "❌  Swiftenv is not installed."
+    echo "    https://swiftenv.fuller.li/en/latest/installation.html"
+    exit 1
+fi
+
 if [[ $UNAME == "Darwin" ]];
 then
     OS="macos";
@@ -27,20 +34,21 @@ echo "Swift 3 Installer ($VERSION)";
 
 echo "🖥  Operating System: $OS";
 
+NAME="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory"
 if [[ $OS == "macos" ]];
 then
     INSTALL_LOC="/Library/Developer/Toolchains";
-    TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory.xctoolchain";
+    TOOLCHAIN="$NAME.xctoolchain";
 else
-    INSTALL_LOC="/usr/local/bin";
-    TOOLCHAIN="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory";
+    INSTALL_LOC="~/.swiftenv/versions";
+    TOOLCHAIN=$NAME;
 fi
 
 if [ -d "$INSTALL_LOC/$TOOLCHAIN" ]; 
 then
     echo "⬇️  Downloaded"
 else
-    COMPRESSED="swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory-$OS.tar";
+    COMPRESSED="$NAME-$OS.tar";
 
     echo "⬇️  Downloading"
 
@@ -51,15 +59,6 @@ else
 
     rm $COMPRESSED;
 
-    if [[ $TRAVIS ]];
-    then
-        echo "Travis detected.";
-        mv $TOOLCHAIN swift;
-
-        INSTALL_LOC=$HOME;
-        TOOLCHAIN="swift";
-    fi
-
     echo "🚀  Installing";
 
     sudo mkdir -p $INSTALL_LOC;
@@ -67,69 +66,7 @@ else
     sudo mv $TOOLCHAIN $INSTALL_LOC;
 fi
 
-if [[ $OS == "macos" ]];
-then
-    PROFILE=".bash_profile";
-else
-    PROFILE=".bashrc";
-fi
-
-LOADER=".swift-version-loader"
-VFILE=".swift-version"
-
-rm ~/$LOADER 2> /dev/null
-echo "VERSION=\`cat ~/$VFILE | tr -d '[[:space:]]'\`" >> ~/$LOADER;
-echo "" >> ~/$LOADER;
-if [[ $OS == "macos" ]];
-then
-    echo "export PATH=$INSTALL_LOC/\$VERSION.xctoolchain/usr/bin:\"\$PATH\"" >> ~/$LOADER;
-else
-    echo "export PATH=$INSTALL_LOC/\$VERSION/usr/bin:\"\$PATH\"" >> ~/$LOADER;
-fi
-
-rm ~/$VFILE 2> /dev/null
-echo "swift-DEVELOPMENT-SNAPSHOT-2016-$VERSION-qutheory" >> ~/$VFILE
-
-if [[ $TRAVIS ]];
-then
-    PROFILE=".bashrc";
-else
-    if [[ `cat ~/$PROFILE` == *"source ~/$LOADER"* ]];
-    then
-        echo "⚠️  Open a new terminal tab or run";
-        echo "    source ~/$PROFILE";
-    else
-        read -r -p "Add Swift loader to your ~/$PROFILE for Terminal access? [y/N] " response;
-        if [[ $response =~ ^(yes|y|Y|YES)$ ]];
-        then
-            echo "" >> ~/$PROFILE;
-            echo "# Swift 3 Development Version Loader" >> ~/$PROFILE;
-            echo "source ~/$LOADER" >> ~/$PROFILE;
-
-            echo "⚠️  Now open a new terminal tab or run";
-            echo "    source ~/$PROFILE";
-        else
-            echo "⚠️  Add the following line to your ~/$PROFILE";
-            echo "    source ~/$LOADER";
-        fi
-    fi
-fi
-
-PROF_CONTENTS=`cat ~/$PROFILE`
-if [[ $PROF_CONTENTS == *"swiftenv"* ]];
-then
-    echo "⚠️  Your ~/$PROFILE contains references to swiftenv.";
-    echo "This may interfere. Try commenting swiftenv out if you have issues."
-fi
-
-if [[ $PROF_CONTENTS == *".xctoolchain"* ]];
-then
-    echo "⚠️  Your ~/$PROFILE contains references to other Swift snapshots.";
-    echo "This may interfere. Try commenting these out if you have issues."
-fi
-
-export PATH=$INSTALL_LOC/$TOOLCHAIN/usr/bin:"{$PATH}";
-
+swiftenv global $NAME
 SWIFTV=`swift --version`;
 
 if [[ $SWIFTV == *$SWIFTV_EXPECTED* ]];
