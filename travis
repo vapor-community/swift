@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Swift 3 Travis Installer ($VERSION)";
+echo "Swift 3 Travis Installer";
 
 # Determine version
 VERSION_FILE=".swift-version"
@@ -10,6 +10,7 @@ then
     exit 1
 fi
 VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
+echo "🔢  Version: $VERSION";
 
 # Determine OS
 UNAME=`uname`;
