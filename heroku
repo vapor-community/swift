@@ -29,9 +29,16 @@ export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
 INSTALL_LOC="$HOME/.swiftenv/versions";
 TOOLCHAIN="swift-$VERSION";
 
-echo "⬇️  Downloading"
+echo "⬇️  Downloading";
 COMPRESSED="$OS.tar";
 curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
+
+TAIL=`tail $COMPRESSED`;
+if [[ $TAIL == *"</html>"* ]];
+then
+	echo "❓  Swift version not found, trying Swiftenv.";
+	swiftenv install $VERSION;
+fi
 
 echo "🔧  Untarring"
 tar -xf $COMPRESSED;
