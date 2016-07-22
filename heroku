@@ -50,7 +50,7 @@ fi
 
 # Prepare Swiftenv
 swiftenv rehash
-swiftenv global $NAME
+swiftenv global $TOOLCHAIN
 
 echo "✅  Done";
 
