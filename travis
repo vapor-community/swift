@@ -51,24 +51,31 @@ echo "⬇️  Downloading"
 COMPRESSED="$OS.tar";
 curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
 
-echo "🔧  Untarring"
-tar -xf $COMPRESSED;
-rm $COMPRESSED;
-
-echo "🚀  Installing";
-mkdir -p $INSTALL_LOC 2>/dev/null;
-mv $TOOLCHAIN $INSTALL_LOC 2>/dev/null;
-if [ $? -ne 0 ]; 
+TAIL=`tail $COMPRESSED`;
+if [[ $TAIL == *"</html>"* ]];
 then
-    echo "🔒  Sudo required";
-    sudo mkdir -p $INSTALL_LOC;
-    sudo rm -rf $TOOLCHAIN/$INSTALL_LOC;
-    sudo mv $TOOLCHAIN $INSTALL_LOC;
-fi
+    echo "❓  Swift version not found, trying Swiftenv.";
+    swiftenv install $VERSION;
+else
+    echo "🔧  Untarring"
+    tar -xf $COMPRESSED;
+    rm $COMPRESSED;
 
-# Prepare Swiftenv
-swiftenv rehash
-swiftenv global $NAME
+    echo "🚀  Installing";
+    mkdir -p $INSTALL_LOC 2>/dev/null;
+    mv $TOOLCHAIN $INSTALL_LOC 2>/dev/null;
+    if [ $? -ne 0 ]; 
+    then
+        echo "🔒  Sudo required";
+        sudo mkdir -p $INSTALL_LOC;
+        sudo rm -rf $TOOLCHAIN/$INSTALL_LOC;
+        sudo mv $TOOLCHAIN $INSTALL_LOC;
+    fi
+
+    # Prepare Swiftenv
+    swiftenv rehash
+    swiftenv global $NAME
+fi
 
 echo "✅  Done";
 
