@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Swift 3 Heroku Installer ($VERSION)";
+echo "Swift 3 Heroku Installer";
 
 # Determine version
 VERSION_FILE=".swift-version"
@@ -10,6 +10,8 @@ then
     exit 1
 fi
 VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
+
+echo "🔢  Version: $VERSION";
 
 # Determine OS
 UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
@@ -22,7 +24,7 @@ fi
 echo "🖥  Operating System: $OS";
 
 # Install Swiftenv
-git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
+git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv 1>/dev/null
 export SWIFTENV_ROOT="$HOME/.swiftenv"
 export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
 
