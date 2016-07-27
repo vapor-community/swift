@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
-
-echo "Swift 3 Circle CI Installer";
+echo "Swift 3 Travis Installer";
 
 # Determine version
 VERSION_FILE=".swift-version"
@@ -16,17 +14,22 @@ echo "📅 Version: $VERSION";
 
 # Determine OS
 UNAME=`uname`;
-if [[ $UNAME == "Linux" ]];
+if [[ $UNAME == "Darwin" ]];
 then
-    UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
-    if [[ $UBUNTU_RELEASE == *"15.10"* ]];
-    then
-        OS="ubuntu1510";
-    else
-        OS="ubuntu1404";
-    fi
+    OS="macos";
 else
-    echo "Unsupported Operating System: $UNAME";
+    if [[ $UNAME == "Linux" ]];
+    then
+        UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
+        if [[ $UBUNTU_RELEASE == *"15.10"* ]];
+        then
+            OS="ubuntu1510";
+        else
+            OS="ubuntu1404";
+        fi
+    else
+        echo "Unsupported Operating System: $UNAME";
+    fi
 fi
 echo "🖥 Operating System: $OS";
 
@@ -68,3 +71,7 @@ fi
 
 echo "✅ Done";
 
+if [[ $OS == *"ubuntu"* ]];
+then
+    eval "$(curl -sL swift.qutheory.io/codecov)"
+fi
