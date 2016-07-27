@@ -36,8 +36,8 @@ echo "🖥  Operating System: $OS";
 # Install Swiftenv
 git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
 
-echo "export SWIFTENV_ROOT=\"\$HOME/.swiftenv\"" >> ~/.bashrc
-export "export PATH=\"\$SWIFTENV_ROOT/bin:\$SWIFTENV_ROOT/shims:\$PATH\"" >> ~/.bashrc
+export SWIFTENV_ROOT="$HOME/.swiftenv"
+export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
 
 if [[ $OS == "macos" ]];
 then
@@ -62,7 +62,7 @@ else
     tar -xf $COMPRESSED;
     rm $COMPRESSED;
 
-    echo "🚀  Installing";
+    echo "⏬  Installing";
     mkdir -p $INSTALL_LOC 2>/dev/null;
     mv $TOOLCHAIN $INSTALL_LOC 2>/dev/null;
     if [ $? -ne 0 ]; 
@@ -77,6 +77,12 @@ else
     swiftenv rehash
     swiftenv global $NAME
 fi
+
+echo "🚀  Testing";
+
+swift build
+swift build -c release
+swift test
 
 echo "✅  Done";
 
