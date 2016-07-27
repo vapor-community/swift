@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+echo "Swift 3 CodeCov Integration";
+
+# Determine version
+VERSION_FILE=".swift-version"
+if [ ! -f $VERSION ]; 
+then
+    echo "No .swift-version file found."
+    exit 1
+fi
+VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
+
+if [[ $VERSION == *"2016-07-25-a"* ]];
+then
+    TCID="org.swift.3020160725a"
+else
+    echo "❌  Unsupported version: $VERSION.";
+    exit 1;
+fi
+echo "🔢  Version: $VERSION ($TCID)";
+
+# Determine OS
+UNAME=`uname`;
+if [[ $UNAME == "Darwin" ]];
+then
+    OS="macos";
+else
+    echo "❌  Unsupported OS: $UNAME.";
+    exit 1;
+fi
+echo "🖥  Operating System: $OS";
+
+
+PROJ_OUTPUT=`swift package generate-xcodeproj`;
+PROJ_NAME="${PROJ_OUTPUT/generated: .\//}"
+SCHEME_NAME="${PROJ_NAME/.xcodeproj/}"
+
+echo "🚀  Testing: $SCHEME_NAME";
+
+xcodebuild -project $PROJ_NAME -scheme $SCHEME_NAME -sdk macosx10.12 -destination arch=x86_64 -configuration Debug -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO ENABLE_TESTABILITY=YES test -toolchain $TCID
+bash <(curl -s https://codecov.io/bash)
+
+echo "✅  Done";
