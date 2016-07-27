@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Swift 3 Travis Installer";
+echo "Swift 3 Continuous Integration";
 
 # Determine version
 VERSION_FILE=".swift-version"
