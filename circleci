@@ -12,7 +12,7 @@ then
     exit 1
 fi
 VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
-echo "🔢  Version: $VERSION";
+echo "📅  Version: $VERSION";
 
 # Determine OS
 UNAME=`uname`;
@@ -35,59 +35,42 @@ else
 fi
 echo "🖥  Operating System: $OS";
 
-# Install Swiftenv
+echo "📦 Installing Swiftenv"
 git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
 
 export SWIFTENV_ROOT="$HOME/.swiftenv"
 export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
 
-if [[ $OS == "macos" ]];
-then
-    INSTALL_LOC="/Library/Developer/Toolchains";
-    TOOLCHAIN="swift-$VERSION.xctoolchain";
-else
-    INSTALL_LOC="$HOME/.swiftenv/versions";
-    TOOLCHAIN="swift-$VERSION";
-fi
-
-echo "🔣  Dependencies"
+echo "📚  Installing Dependencies"
 sudo apt-get install -y clang libicu-dev
 
-echo "⬇️  Downloading"
-COMPRESSED="$OS.tar";
-curl -LO swift.qutheory.io/binaries/$VERSION/$COMPRESSED;
+echo "🐦  Installing Swift";
+swiftenv install $VERSION;
 
-TAIL=`tail $COMPRESSED`;
-if [[ $TAIL == *"</html>"* ]];
-then
-    echo "❓  Swift version not found, trying Swiftenv.";
-    swiftenv install $VERSION;
-else
-    echo "🔧  Untarring"
-    tar -xf $COMPRESSED;
-    rm $COMPRESSED;
-
-    echo "⏬  Installing";
-    mkdir -p $INSTALL_LOC 2>/dev/null;
-    mv $TOOLCHAIN $INSTALL_LOC 2>/dev/null;
-    if [ $? -ne 0 ]; 
-    then
-        echo "🔒  Sudo required";
-        sudo mkdir -p $INSTALL_LOC;
-        sudo rm -rf $TOOLCHAIN/$INSTALL_LOC;
-        sudo mv $TOOLCHAIN $INSTALL_LOC;
-    fi
-
-    # Prepare Swiftenv
-    swiftenv rehash
-    swiftenv global $NAME
-fi
-
-echo "🚀  Testing";
+echo "🚀  Building";
 
 swift build
+if [[ $? != 0 ]]; 
+then 
+    echo "❌  Build failed";
+    exit 1; 
+fi
+
 swift build -c release
+if [[ $? != 0 ]]; 
+then 
+    echo "❌  Build for release failed";
+    exit 1; 
+fi
+
+echo "🔎  Testing";
+
 swift test
+if [[ $? != 0 ]]; 
+then 
+    echo "❌  Tests failed";
+    exit 1; 
+fi
 
 echo "✅  Done";
 
