@@ -70,8 +70,3 @@ then
 fi
 
 echo "✅ Done";
-
-if [[ $OS == *"ubuntu"* ]];
-then
-    eval "$(curl -sL swift.qutheory.io/codecov)"
-fi
