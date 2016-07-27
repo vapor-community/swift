@@ -73,6 +73,8 @@ else
         sudo mv $TOOLCHAIN $INSTALL_LOC;
     fi
 
+    sudo apt-get install clang libicu-dev
+
     # Prepare Swiftenv
     swiftenv rehash
     swiftenv global $NAME
