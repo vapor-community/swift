@@ -6,7 +6,7 @@ echo "Swift 3 CodeCov Integration";
 VERSION_FILE=".swift-version"
 if [ ! -f $VERSION ]; 
 then
-    echo "No .swift-version file found."
+    echo "❌  No .swift-version file found."
     exit 1
 fi
 VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
