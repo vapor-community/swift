@@ -4,7 +4,7 @@ echo "Swift 3 CodeCov Integration";
 
 # Determine version
 VERSION_FILE=".swift-version"
-if [ ! -f $VERSION ]; 
+if [ ! -f $VERSION_FILE ]; 
 then
     echo "❌  No .swift-version file found."
     exit 1
