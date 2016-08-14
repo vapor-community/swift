@@ -4,20 +4,29 @@ echo "Swift 3 CodeCov Integration";
 
 # Determine version
 VERSION_FILE=".swift-version"
-if [ ! -f $VERSION_FILE ]; 
+TOOLCHAIN_FILE=".swift-toolchain"
+DEFAULT_VERSION="2016-07-25"
+
+if [ ! -f $VERSION_FILE ];
 then
     echo "❌  No .swift-version file found."
     exit 1
 fi
 VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
 
-if [[ $VERSION == *"2016-07-25-a"* ]];
+if [[ $VERSION == *"$DEFAULT_VERSION"* ]];
 then
     TCID="org.swift.3020160725a"
 else
-    echo "❌  Unsupported version: $VERSION.";
+    TCID=`cat $TOOLCHAIN_FILE | tr -d '[[:space:]]'`
+    if [[ -z "$TCID" ]]
+    then
+    echo "got thingy $TCID"
+    echo "❌  Unsupported version: $VERSION. Use $DEFAULT_VERSION or specify a `.swift-toolchain`";
     exit 1;
+    fi
 fi
+
 echo "🔢  Version: $VERSION ($TCID)";
 
 # Determine OS
