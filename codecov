@@ -15,8 +15,13 @@ if [[ $VERSION == *"2016-07-25-a"* ]];
 then
     TCID="org.swift.3020160725a"
 else
-    echo "❌  Unsupported version: $VERSION.";
-    exit 1;
+	if [[ $VERSION == *"2016-08-18-a"* ]];
+	then
+    	TCID="org.swift.3020160818a"
+    else
+    	echo "❌  Unsupported version: $VERSION.";
+    	exit 1;
+    fi
 fi
 echo "🔢  Version: $VERSION ($TCID)";
 
