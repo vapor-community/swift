@@ -28,8 +28,7 @@ git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
 export SWIFTENV_ROOT="$HOME/.swiftenv"
 export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
 
-echo "📚 Installing Dependencies"
-apt-get install -y clang libicu-dev uuid-dev
+# echo "📚 Installing Dependencies"
 
 echo "🐦 Installing Swift";
 swiftenv install $VERSION;
