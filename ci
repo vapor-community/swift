@@ -2,14 +2,20 @@
 
 echo "Swift 3 Continuous Integration";
 
-# Determine version
-VERSION_FILE=".swift-version"
-if [ ! -f $VERSION_FILE ]; 
+# Determine version from environment variable or swiftenv file
+if [[ ! -z $SWIFT_VERSION ]]
 then
-    echo "No .swift-version file found."
-    exit 1
+    VERSION = $SWIFT_VERSION
+else
+    VERSION_FILE=".swift-version"
+    if [ ! -f $VERSION_FILE ]; 
+    then
+        echo "No SWIFT_VERSION environment variable or .swift-version file found."
+        exit 1
+    fi
+    VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
 fi
-VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
+
 echo "📅 Version: $VERSION";
 
 # Determine OS
@@ -43,6 +49,7 @@ sudo apt-get install -y clang libicu-dev uuid-dev
 
 echo "🐦 Installing Swift";
 swiftenv install $VERSION;
+swiftenv local $VERSION;
 
 echo "🚀 Building";
 swift build
