@@ -53,7 +53,7 @@ SCHEME_NAME="${PROJ_NAME/.xcodeproj/}"
 
 echo "🚀  Testing: $SCHEME_NAME";
 
-xcodebuild -project $PROJ_NAME -scheme $SCHEME_NAME -sdk macosx10.12 -destination arch=x86_64 -configuration Debug -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO ENABLE_TESTABILITY=YES test -toolchain $TCID
+xctool -project $PROJ_NAME -scheme $SCHEME_NAME -sdk macosx10.12 -destination arch=x86_64 -configuration Debug -enableCodeCoverage YES ONLY_ACTIVE_ARCH=NO ENABLE_TESTABILITY=YES test -toolchain $TCID
 bash <(curl -s https://codecov.io/bash)
 
 echo "✅  Done";
