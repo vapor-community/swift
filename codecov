@@ -19,9 +19,9 @@ else
     then
         TCID="org.swift.3020160818a"
     else
-        if [[ $VERSION == *"2016-08-23-a"* ]];
+        if [[ $VERSION == *"2016-09-06-a"* ]];
         then
-            TCID="org.swift.3020160823a"
+            TCID="org.swift.3020160906a"
         else
             if [[ $VERSION == *"2016-08-24-a"* ]];
             then
