@@ -23,24 +23,27 @@ else
 fi
 echo "🖥 Operating System: $OS";
 
-echo "📦 Installing Swiftenv"
-git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
-export SWIFTENV_ROOT="$HOME/.swiftenv"
-export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
-
-echo "📚 Installing Dependencies"
-sudo apt-get install -y clang libicu-dev uuid-dev
-
-echo "🐦 Installing Swift";
-if [ -f ".swift-version" ] || [ -n "$SWIFT_VERSION" ]; 
+if [[ $OS != "macos" ]];
 then
-    swiftenv install;
-else
-    echo "No SWIFT_VERSION environment variable or .swift-version file found."
-    exit 1
+    echo "📦 Installing Swiftenv"
+    git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
+    export SWIFTENV_ROOT="$HOME/.swiftenv"
+    export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
+
+    echo "📚 Installing Dependencies"
+    sudo apt-get install -y clang libicu-dev uuid-dev
+
+    echo "🐦 Installing Swift";
+    if [ -f ".swift-version" ] || [ -n "$SWIFT_VERSION" ]; 
+    then
+        swiftenv install;
+    else
+        echo "No SWIFT_VERSION environment variable or .swift-version file found."
+        exit 1
+    fi
 fi
 
-echo "📅 Version: `swiftenv version`";
+echo "📅 Version: `swift --version`";
 
 echo "🚀 Building";
 swift build
