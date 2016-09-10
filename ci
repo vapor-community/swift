@@ -25,22 +25,19 @@ echo "🖥 Operating System: $OS";
 
 if [[ $OS != "macos" ]];
 then
-    echo "📦 Installing Swiftenv"
-    git clone --depth 1 https://github.com/kylef/swiftenv.git ~/.swiftenv
-    export SWIFTENV_ROOT="$HOME/.swiftenv"
-    export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"
-
     echo "📚 Installing Dependencies"
     sudo apt-get install -y clang libicu-dev uuid-dev
 
     echo "🐦 Installing Swift";
-    if [ -f ".swift-version" ] || [ -n "$SWIFT_VERSION" ]; 
+    if [[ $OS == "ubuntu1510" ]];
     then
-        swiftenv install;
+        SWIFTFILE="swift-3.0-GM-CANDIDATE-ubuntu15.10";    
     else
-        echo "No SWIFT_VERSION environment variable or .swift-version file found."
-        exit 1
+        SWIFTFILE="swift-3.0-GM-CANDIDATE-ubuntu14.04";
     fi
+    wget https://swift.org/builds/swift-3.0-GM-CANDIDATE/$OS/swift-3.0-GM-CANDIDATE/$SWIFTFILE.tar.gz
+    tar -zxf $SWIFTFILE.tar.gz
+    export PATH=$PWD/$SWIFTFILE/usr/bin:"${PATH}"
 fi
 
 echo "📅 Version: `swift --version`";
