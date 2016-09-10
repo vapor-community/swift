@@ -2,39 +2,6 @@
 
 echo "Swift 3 CodeCov Integration";
 
-# Determine version
-VERSION_FILE=".swift-version"
-if [ ! -f $VERSION_FILE ]; 
-then
-    echo "❌  No .swift-version file found."
-    exit 1
-fi
-VERSION=`cat $VERSION_FILE | tr -d '[[:space:]]'`
-
-if [[ $VERSION == *"2016-07-25-a"* ]];
-then
-    TCID="org.swift.3020160725a"
-else
-    if [[ $VERSION == *"2016-08-18-a"* ]];
-    then
-        TCID="org.swift.3020160818a"
-    else
-        if [[ $VERSION == *"2016-09-06-a"* ]];
-        then
-            TCID="org.swift.3020160906a"
-        else
-            if [[ $VERSION == *"2016-08-24-a"* ]];
-            then
-                TCID="org.swift.3020160824a"
-            else
-                echo "❌  Unsupported version: $VERSION.";
-                exit 1;
-            fi
-        fi
-    fi
-fi
-echo "🔢  Version: $VERSION ($TCID)";
-
 # Determine OS
 UNAME=`uname`;
 if [[ $UNAME == "Darwin" ]];
@@ -55,7 +22,7 @@ echo "🚀  Testing: $SCHEME_NAME";
 
 rvm install 2.2.3
 gem install xcpretty
-WORKING_DIRECTORY=$(PWD) xcodebuild -toolchain $TCID -project $PROJ_NAME -scheme $SCHEME_NAME -sdk macosx10.12 -destination arch=x86_64 -configuration Debug -enableCodeCoverage YES test | xcpretty
+WORKING_DIRECTORY=$(PWD) xcodebuild -project $PROJ_NAME -scheme $SCHEME_NAME -sdk macosx10.12 -destination arch=x86_64 -configuration Debug -enableCodeCoverage YES test | xcpretty
 bash <(curl -s https://codecov.io/bash)
 
 echo "✅  Done";
