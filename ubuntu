@@ -34,5 +34,6 @@ echo "🔒  Sudo required";
 sudo mv $TC /swift-3.0
 
 echo "export PATH=/swift-3.0/usr/bin:\"\${PATH}\"" >> ~/.bashrc
+source ~/.bashrc
 
 echo "✅  Done";
