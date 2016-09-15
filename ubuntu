@@ -27,6 +27,7 @@ wget https://swift.org/builds/swift-3.0-release/$OS/swift-3.0-RELEASE/$TC.tar.gz
 
 echo "🔧  Untarring"
 tar zxf $TC.tar.gz
+rm -rf $TC.tar.gz
 
 echo "🚀  Installing";
 echo "🔒  Sudo required";
