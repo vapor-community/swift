@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+echo "Swift 3 Quick Installer";
+
+# Determine OS
+UNAME=`uname`;
+if [[ $UNAME == "Linux" ]];
+then
+    UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
+    if [[ $UBUNTU_RELEASE == *"14.04"* ]];
+    then
+        OS="ubuntu1404";
+        TC="swift-3.0-RELEASE-ubuntu14.04"
+    else
+        OS="ubuntu1510";
+        TC="swift-3.0-RELEASE-ubuntu15.10"
+    fi
+else
+    echo "❌  Unsupported Operating System: $UNAME";
+    exit 1;
+fi
+
+echo "🖥  Operating System: $OS";
+
+echo "⬇️  Downloading"
+wget https://swift.org/builds/swift-3.0-release/$OS/swift-3.0-RELEASE/$TC.tar.gz
+
+echo "🔧  Untarring"
+tar zxf $TC.tar.gz
+
+echo "🚀  Installing";
+echo "🔒  Sudo required";
+sudo mv $TC /swift-3.0
+
+echo "export PATH=/swift-3.0/usr/bin:\"\${PATH}\"" >> ~/.bashrc
+
+echo "✅  Done";
