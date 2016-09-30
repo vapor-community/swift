@@ -22,6 +22,10 @@ fi
 
 echo "🖥  Operating System: $OS";
 
+echo "📦  Installing Dependencies"
+echo "🔒  Sudo required";
+sudo apt-get install clang libicu-dev git
+
 echo "⬇️  Downloading"
 wget https://swift.org/builds/swift-3.0-release/$OS/swift-3.0-RELEASE/$TC.tar.gz
 
