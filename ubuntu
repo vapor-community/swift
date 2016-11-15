@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+SWIFT_VERSION="3.0.1"
+
 echo "Swift 3 Quick Installer";
 
 # Determine OS
@@ -10,10 +12,16 @@ then
     if [[ $UBUNTU_RELEASE == *"14.04"* ]];
     then
         OS="ubuntu1404";
-        TC="swift-3.0-RELEASE-ubuntu14.04"
+        TC="swift-$SWIFT_VERSION-RELEASE-ubuntu14.04"
     else
-        OS="ubuntu1510";
-        TC="swift-3.0-RELEASE-ubuntu15.10"
+        if [[ $UBUNTU_RELEASE == *"15.10"* ]];
+        then
+            OS="ubuntu1510";
+            TC="swift-$SWIFT_VERSION-RELEASE-ubuntu15.10"
+        else
+            OS="ubuntu1604";
+            TC="swift-$SWIFT_VERSION-RELEASE-ubuntu16.04"
+        fi
     fi
 else
     echo "❌  Unsupported Operating System: $UNAME";
@@ -25,10 +33,10 @@ echo "🖥  Operating System: $OS";
 echo "📦  Installing Dependencies"
 echo "🔒  Sudo required";
 sudo apt-get update
-sudo apt-get -yq install clang libicu-dev git wget
+sudo apt-get -yq install clang libicu-dev git wget libcurl4-openssl-dev
 
 echo "⬇️  Downloading"
-wget https://swift.org/builds/swift-3.0-release/$OS/swift-3.0-RELEASE/$TC.tar.gz
+wget https://swift.org/builds/swift-$SWIFT_VERSION-release/$OS/swift-$SWIFT_VERSION-RELEASE/$TC.tar.gz
 
 echo "🔧  Untarring"
 tar zxf $TC.tar.gz
@@ -36,9 +44,9 @@ rm -rf $TC.tar.gz
 
 echo "🚀  Installing";
 echo "🔒  Sudo required";
-sudo mv $TC /swift-3.0
+sudo mv $TC /swift-$SWIFT_VERSION
 
-echo "export PATH=/swift-3.0/usr/bin:\"\${PATH}\"" >> ~/.bashrc
+echo "export PATH=/swift-$SWIFT_VERSION/usr/bin:\"\${PATH}\"" >> ~/.bashrc
 source ~/.bashrc
 
 echo "✅  Done";
