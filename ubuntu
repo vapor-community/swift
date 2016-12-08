@@ -29,7 +29,7 @@ echo "🖥  Operating System: $OS";
 
 echo "📦  Installing Dependencies"
 echo "🔒  Sudo required";
-sudo apt-get update
+sudo apt-get -yq update
 sudo apt-get -yq install clang libicu-dev git wget
 
 echo "⬇️  Downloading"
