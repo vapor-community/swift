@@ -29,7 +29,7 @@ echo "🖥  Operating System: $OS";
 
 echo "📦  Installing Dependencies"
 echo "🔒  Sudo required";
-sudo apt-get -yq install clang libicu-dev git wget
+sudo apt-get -y --force-yes -q install clang libicu-dev git wget
 
 echo "⬇️  Downloading"
 wget https://swift.org/builds/swift-$VERSION-release/$OS/swift-$VERSION-RELEASE/$TC.tar.gz
