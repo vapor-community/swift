@@ -18,6 +18,14 @@ else
         then
             OS="ubuntu1510";
             OS_FILE="ubuntu15.10";
+        elif [[ $UBUNTU_RELEASE == *"16.10"* ]];
+        then
+            OS="ubuntu1610";
+            OS_FILE="ubuntu16.10";
+        elif [[ $UBUNTU_RELEASE == *"16.04"* ]];
+        then
+            OS="ubuntu1604";
+            OS_FILE="ubuntu16.04";
         else
             OS="ubuntu1404";
             OS_FILE="ubuntu14.04";
@@ -34,15 +42,6 @@ then
     sudo apt-get install -y clang libicu-dev uuid-dev
 
     echo "🐦 Installing Swift";
-    if [[ $OS == "ubuntu1510" ]];
-    then
-        SWIFTFILE="swift-$VERSION-RELEASE-ubuntu15.10";    
-    else
-        SWIFTFILE="swift-$VERSION-RELEASE-ubuntu14.04";
-    fi
-    # https://swift.org/builds/swift-3.1-branch/xcode/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-osx.pkg
-    # https://swift.org/builds/swift-3.1-branch/ubuntu1510/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-a/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-ubuntu15.10.tar.gz
-    # https://swift.org/builds/swift-3.1-branch/ubuntu1404/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-ubuntu14.04.tar.gz
     SWIFTFILE=swift-3.1-DEVELOPMENT-$SNAPSHOT-$OS_FILE
     wget https://swift.org/builds/swift-3.1-branch/$OS/swift-3.1-DEVELOPMENT-$SNAPSHOT/$SWIFTFILE.tar.gz
     tar -zxf $SWIFTFILE.tar.gz
