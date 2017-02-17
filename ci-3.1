@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+VERSION="3.1-dev"
+SNAPSHOT="SNAPSHOT-2017-02-16-a"
+echo "Swift $VERSION Continuous Integration";
+
+# Determine OS
+UNAME=`uname`;
+if [[ $UNAME == "Darwin" ]];
+then
+    OS="macos";
+    OS_FILE="osx";
+else
+    if [[ $UNAME == "Linux" ]];
+    then
+        UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
+        if [[ $UBUNTU_RELEASE == *"15.10"* ]];
+        then
+            OS="ubuntu1510";
+            OS_FILE="ubuntu15.10";
+        else
+            OS="ubuntu1404";
+            OS_FILE="ubuntu14.04";
+        fi
+    else
+        echo "Unsupported Operating System: $UNAME";
+    fi
+fi
+echo "🖥 Operating System: $OS";
+
+if [[ $OS != "macos" ]];
+then
+    echo "📚 Installing Dependencies"
+    sudo apt-get install -y clang libicu-dev uuid-dev
+
+    echo "🐦 Installing Swift";
+    if [[ $OS == "ubuntu1510" ]];
+    then
+        SWIFTFILE="swift-$VERSION-RELEASE-ubuntu15.10";    
+    else
+        SWIFTFILE="swift-$VERSION-RELEASE-ubuntu14.04";
+    fi
+    # https://swift.org/builds/swift-3.1-branch/xcode/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-osx.pkg
+    # https://swift.org/builds/swift-3.1-branch/ubuntu1404/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-ubuntu14.04.tar.gz
+    SWIFTFILE=swift-3.1-DEVELOPMENT-$SNAPSHOT-$OS_FILE
+    wget https://swift.org/builds/swift-3.1-branch/$OS/swift-3.1-DEVELOPMENT-$SNAPSHOT-a/$SWIFTFILE.tar.gz
+    tar -zxf $SWIFTFILE.tar.gz
+    export PATH=$PWD/$SWIFTFILE/usr/bin:"${PATH}"
+fi
+
+echo "📅 Version: `swift --version`";
+
+echo "🚀 Building";
+swift build
+if [[ $? != 0 ]]; 
+then 
+    echo "❌  Build failed";
+    exit 1; 
+fi
+
+echo "💼 Building Release";
+swift build -c release
+if [[ $? != 0 ]]; 
+then 
+    echo "❌  Build for release failed";
+    exit 1; 
+fi
+
+echo "🔎 Testing";
+
+swift test
+if [[ $? != 0 ]]; 
+then 
+    echo "❌ Tests failed";
+    exit 1; 
+fi
+
+echo "✅ Done"
