@@ -22,12 +22,17 @@ else
         then
             OS="ubuntu1604";
             OS_FILE="ubuntu16.04";
-        else
+        elif [[ $UBUNTU_RELEASE == *"14.04"* ]];
+        then
             OS="ubuntu1404";
             OS_FILE="ubuntu14.04";
+        else
+            echo "Unsupported Operating System: $UNAME";
+            exit 1; 
         fi
     else
         echo "Unsupported Operating System: $UNAME";
+        exit 1; 
     fi
 fi
 echo "🖥 Operating System: $OS";
@@ -38,7 +43,7 @@ then
     sudo apt-get install -y clang libicu-dev uuid-dev
 
     echo "🐦 Installing Swift";
-    SWIFTFILE=swift-3.1-DEVELOPMENT-$SNAPSHOT-$OS_FILE
+    SWIFTFILE=swift-3.1-DEVELOPMENT-$SNAPSHOT-$OS_FILE;
     wget https://swift.org/builds/swift-3.1-branch/$OS/swift-3.1-DEVELOPMENT-$SNAPSHOT/$SWIFTFILE.tar.gz
     tar -zxf $SWIFTFILE.tar.gz
     export PATH=$PWD/$SWIFTFILE/usr/bin:"${PATH}"
