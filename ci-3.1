@@ -14,11 +14,7 @@ else
     if [[ $UNAME == "Linux" ]];
     then
         UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
-        if [[ $UBUNTU_RELEASE == *"15.10"* ]];
-        then
-            OS="ubuntu1510";
-            OS_FILE="ubuntu15.10";
-        elif [[ $UBUNTU_RELEASE == *"16.10"* ]];
+        if [[ $UBUNTU_RELEASE == *"16.10"* ]];
         then
             OS="ubuntu1610";
             OS_FILE="ubuntu16.10";
