@@ -41,9 +41,10 @@ then
         SWIFTFILE="swift-$VERSION-RELEASE-ubuntu14.04";
     fi
     # https://swift.org/builds/swift-3.1-branch/xcode/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-osx.pkg
+    # https://swift.org/builds/swift-3.1-branch/ubuntu1510/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-a/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-ubuntu15.10.tar.gz
     # https://swift.org/builds/swift-3.1-branch/ubuntu1404/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a/swift-3.1-DEVELOPMENT-SNAPSHOT-2017-02-16-a-ubuntu14.04.tar.gz
     SWIFTFILE=swift-3.1-DEVELOPMENT-$SNAPSHOT-$OS_FILE
-    wget https://swift.org/builds/swift-3.1-branch/$OS/swift-3.1-DEVELOPMENT-$SNAPSHOT-a/$SWIFTFILE.tar.gz
+    wget https://swift.org/builds/swift-3.1-branch/$OS/swift-3.1-DEVELOPMENT-$SNAPSHOT/$SWIFTFILE.tar.gz
     tar -zxf $SWIFTFILE.tar.gz
     export PATH=$PWD/$SWIFTFILE/usr/bin:"${PATH}"
 fi
