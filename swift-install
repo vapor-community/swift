@@ -1,4 +1,4 @@
-o "Swift 3 Continuous Integration";
+echo "Swift 3 Continuous Integration";
 
 # Determine OS
 UNAME=`uname`;
