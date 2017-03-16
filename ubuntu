@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="3.0.1"
+VERSION="3.0.2"
 echo "Swift $VERSION Quick Installer";
 
 # Determine OS
@@ -12,10 +12,6 @@ then
     then
         OS="ubuntu1404";
         TC="swift-$VERSION-RELEASE-ubuntu14.04"
-    elif [[ $UBUNTU_RELEASE == *"15.10"* ]];
-    then
-        OS="ubuntu1510";
-        TC="swift-$VERSION-RELEASE-ubuntu15.10"
     else
         OS="ubuntu1604";
         TC="swift-$VERSION-RELEASE-ubuntu16.04"

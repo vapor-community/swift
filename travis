@@ -4,7 +4,7 @@ echo "Swift 3 Travis Installer";
 
 # Determine version
 VERSION_FILE=".swift-version"
-if [ ! -f $VERSION_FILE ]; 
+if [ ! -f $VERSION_FILE ];
 then
     echo "No .swift-version file found."
     exit 1
@@ -21,9 +21,9 @@ else
     if [[ $UNAME == "Linux" ]];
     then
         UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
-        if [[ $UBUNTU_RELEASE == *"15.10"* ]];
+        if [[ $UBUNTU_RELEASE == *"16.04"* ]];
         then
-            OS="ubuntu1510";
+            OS="ubuntu1604";
         else
             OS="ubuntu1404";
         fi
@@ -64,7 +64,7 @@ else
     echo "🚀  Installing";
     mkdir -p $INSTALL_LOC 2>/dev/null;
     mv $TOOLCHAIN $INSTALL_LOC 2>/dev/null;
-    if [ $? -ne 0 ]; 
+    if [ $? -ne 0 ];
     then
         echo "🔒  Sudo required";
         sudo mkdir -p $INSTALL_LOC;
@@ -78,4 +78,3 @@ else
 fi
 
 echo "✅  Done";
-
