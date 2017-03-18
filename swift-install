@@ -27,9 +27,9 @@ then
     sudo apt-get install -y clang libicu-dev uuid-dev
 
     echo "🐦 Installing Swift";
-    if [[ $OS == "ubuntu1510" ]];
+    if [[ $OS == "ubuntu1604" ]];
     then
-        SWIFTFILE="swift-3.0.2-RELEASE-ubuntu15.10";
+        SWIFTFILE="swift-3.0.2-RELEASE-ubuntu16.04";
     else
         SWIFTFILE="swift-3.0.2-RELEASE-ubuntu14.04";
     fi
