@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-VERSION="3.1-dev"
-SNAPSHOT="SNAPSHOT-2017-03-13-a"
+VERSION="3.1"
 echo "Swift $VERSION Continuous Integration";
 
 # Determine OS
@@ -39,14 +38,16 @@ echo "🖥 Operating System: $OS";
 
 if [[ $OS != "macos" ]];
 then
-    echo "📚 Installing Dependencies"
+    echo "📚 Installing Swift Dependencies"
     sudo apt-get install -y clang libicu-dev uuid-dev
 
     echo "🐦 Installing Swift";
-    SWIFTFILE=swift-3.1-DEVELOPMENT-$SNAPSHOT-$OS_FILE;
-    wget https://swift.org/builds/swift-3.1-branch/$OS/swift-3.1-DEVELOPMENT-$SNAPSHOT/$SWIFTFILE.tar.gz
+    wget https://swift.org/builds/swift-3.1-release/$OS/swift-3.1-RELEASE/swift-3.1-RELEASE-$OS_FILE.tar.gz
     tar -zxf $SWIFTFILE.tar.gz
     export PATH=$PWD/$SWIFTFILE/usr/bin:"${PATH}"
+
+    echo "📦  Installing Vapor Dependencies"
+    sudo apt-get install -y openssl libmysqlclient-dev
 fi
 
 echo "📅 Version: `swift --version`";
