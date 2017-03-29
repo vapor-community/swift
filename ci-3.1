@@ -42,7 +42,8 @@ then
     sudo apt-get install -y clang libicu-dev uuid-dev
 
     echo "🐦 Installing Swift";
-    wget https://swift.org/builds/swift-3.1-release/$OS/swift-3.1-RELEASE/swift-3.1-RELEASE-$OS_FILE.tar.gz
+    SWIFTFILE=swift-3.1-RELEASE-$OS_FILE
+    wget https://swift.org/builds/swift-3.1-release/$OS/swift-3.1-RELEASE/$SWIFTFILE.tar.gz
     tar -zxf $SWIFTFILE.tar.gz
     export PATH=$PWD/$SWIFTFILE/usr/bin:"${PATH}"
 
