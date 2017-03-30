@@ -6,7 +6,7 @@ echo "Swift 3 Circle CI Installer";
 
 # Determine version
 VERSION_FILE=".swift-version"
-if [ ! -f $VERSION_FILE ]; 
+if [ ! -f $VERSION_FILE ];
 then
     echo "No .swift-version file found."
     exit 1
@@ -19,9 +19,9 @@ UNAME=`uname`;
 if [[ $UNAME == "Linux" ]];
 then
     UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
-    if [[ $UBUNTU_RELEASE == *"15.10"* ]];
+    if [[ $UBUNTU_RELEASE == *"16.04"* ]];
     then
-        OS="ubuntu1510";
+        OS="ubuntu1604";
     else
         OS="ubuntu1404";
     fi
@@ -43,28 +43,27 @@ swiftenv install $VERSION;
 
 echo "🚀 Building";
 swift build
-if [[ $? != 0 ]]; 
-then 
+if [[ $? != 0 ]];
+then
     echo "❌  Build failed";
-    exit 1; 
+    exit 1;
 fi
 
 echo "💼 Building Release";
 swift build -c release
-if [[ $? != 0 ]]; 
-then 
+if [[ $? != 0 ]];
+then
     echo "❌  Build for release failed";
-    exit 1; 
+    exit 1;
 fi
 
 echo "🔎 Testing";
 
 swift test
-if [[ $? != 0 ]]; 
-then 
+if [[ $? != 0 ]];
+then
     echo "❌ Tests failed";
-    exit 1; 
+    exit 1;
 fi
 
 echo "✅ Done";
-

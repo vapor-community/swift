@@ -9,9 +9,9 @@ else
     if [[ $UNAME == "Linux" ]];
     then
         UBUNTU_RELEASE=`lsb_release -a 2>/dev/null`;
-        if [[ $UBUNTU_RELEASE == *"15.10"* ]];
+        if [[ $UBUNTU_RELEASE == *"16.04"* ]];
         then
-            OS="ubuntu1510";
+            OS="ubuntu1604";
         else
             OS="ubuntu1404";
         fi
@@ -27,16 +27,15 @@ then
     sudo apt-get install -y clang libicu-dev uuid-dev
 
     echo "🐦 Installing Swift";
-    if [[ $OS == "ubuntu1510" ]];
+    if [[ $OS == "ubuntu1604" ]];
     then
-        SWIFTFILE="swift-3.0-RELEASE-ubuntu15.10";    
+        SWIFTFILE="swift-3.0.2-RELEASE-ubuntu16.04";
     else
-        SWIFTFILE="swift-3.0-RELEASE-ubuntu14.04";
+        SWIFTFILE="swift-3.0.2-RELEASE-ubuntu14.04";
     fi
-    wget https://swift.org/builds/swift-3.0-release/$OS/swift-3.0-RELEASE/$SWIFTFILE.tar.gz
+    wget https://swift.org/builds/swift-3.0.2-release/$OS/swift-3.0.2-RELEASE/$SWIFTFILE.tar.gz
     tar -zxf $SWIFTFILE.tar.gz
     export PATH=$PWD/$SWIFTFILE/usr/bin:"${PATH}"
 fi
 
 echo "📅 Version: `swift --version`";
-
